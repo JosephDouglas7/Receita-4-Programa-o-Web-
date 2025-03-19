@@ -2,27 +2,110 @@
 <html> 
     <head> 
         <meta charset="UTF-8">
+        <style>
+            /* Estilo geral para a tabela */
+            table {
+                width: 60%; /* Largura da tabela */
+                margin: 20px auto; /* Centraliza a tabela */
+                border-collapse: collapse; /* Remove espaço entre as bordas */
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombras sutis */
+            }
+
+            /* Estilo para as bordas e células da tabela */
+            th, td {
+                border: 1px solid #ddd; /* Borda leve */
+                text-align: center; /* Centraliza o texto */
+                padding: 10px; /* Espaçamento interno */
+            }
+
+            /* Estilo para o cabeçalho da tabela */
+            th {
+                background-color: #f4b084; /* Cor de fundo para o cabeçalho */
+                color: white; /* Cor do texto */
+                font-weight: bold;
+            }
+
+            /* Estilo para as linhas alternadas */
+            tr:nth-child(even) {
+                background-color: #f9f9f9; /* Fundo mais claro */
+            }
+
+            /* Efeito ao passar o mouse */
+            tr:hover {
+                background-color: #e0e0ff; /* Fundo mais claro no hover */
+                cursor: pointer; /* Muda o cursor ao passar o mouse */
+            }
+        </style>
     </head>  
     
     <body> 
-       <div id="meu amor"><button id="botaoCarregar">Carregando cervejas...</button></div>
+       <!-- Div para os botões -->
+       <div id="botaoDiv">
+           <button id="botaoCarregar">Carregar cervejas</button>
+           <button id="botaoOrdenar">Mostrar cervejas ordenadas</button>
+           <button id="botaoEmbaralhar">Embaralhar cervejas</button>
+       </div>
+       
+       <!-- Div para exibir a tabela -->
+       <div id="meuAmor"></div>
     </body> 
     
     <script>  
-        let cervejas = ["Guiness","Desperados","Becks"] 
+        let cervejas = ["Guiness", "Desperados", "Becks"];
         
-        function transformar(item){
-          return `<h1>${item}</h1>`
+        // Constrói a tabela
+        function gerarTabela(cervejasArray) {
+            let tableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Cerveja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${cervejasArray.map((item, index) => `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${item}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            return tableHtml; // Retorna a tabela como string
         }
         
-        function carregarDiv(){ 
-            let div = document.getElementById("meu amor")  
-            //let cervejasHtml = [`<h1>${cervejas[0]}</h1>`,`<h1>${cervejas[1]}</h1>`,`<h1>${cervejas[2]}</h1>`] 
-            let cervejasHtml = cervejas.map(transformar)
-            div.innerHTML=`${cervejasHtml.join("\n")}`
-        } 
+        // Função para carregar a tabela original
+        function carregarDiv() { 
+            let div = document.getElementById("meuAmor");  
+            div.innerHTML = gerarTabela(cervejas); // Insere a tabela estilizada no container
+        }
+
+        // Função para carregar a tabela com as cervejas ordenadas
+        function carregarOrdenadas() {
+            let div = document.getElementById("meuAmor");
+            let ordenadas = [...cervejas].sort(); // Ordena o array de cervejas
+            div.innerHTML = gerarTabela(ordenadas); // Insere a tabela ordenada no container
+        }
+
+        // Função para carregar a tabela com as cervejas embaralhadas
+        function carregarEmbaralhadas() {
+            let div = document.getElementById("meuAmor");
+            let embaralhadas = [...cervejas].sort(() => Math.random() - 0.5); // Embaralha o array de cervejas
+            div.innerHTML = gerarTabela(embaralhadas); // Insere a tabela embaralhada no container
+        }
         
-        let botao = document.getElementById("botaoCarregar")
-        botao.addEventListener("click",carregarDiv)
+        // Eventos dos botões
+        let botaoCarregar = document.getElementById("botaoCarregar");
+        botaoCarregar.addEventListener("click", carregarDiv);
+
+        let botaoOrdenar = document.getElementById("botaoOrdenar");
+        botaoOrdenar.addEventListener("click", carregarOrdenadas);
+
+        let botaoEmbaralhar = document.getElementById("botaoEmbaralhar");
+        botaoEmbaralhar.addEventListener("click", carregarEmbaralhadas);
     </script>
 </html>
