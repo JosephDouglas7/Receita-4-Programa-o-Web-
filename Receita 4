@@ -5,7 +5,7 @@
  </head> 
  
 <body> 
-   <div><button id="botaoCarregar">Carregando sorvetes...</button></div> 
+   <div><a href="#" id="linkCarregar">Carregando sorvetes...</a></div> 
    <div id="meu_amor"></div>
 </body> 
 <script>  
@@ -19,8 +19,11 @@
         div.innerHTML = `${sorvetesHtml.join("\n")}`;
     };
 
-    // Adicionar evento ao botão, passando o array como argumento
-    const botao = document.getElementById("botaoCarregar");
-    botao.addEventListener("click", () => carregarDiv(sorvetes));
+    // Adicionar evento ao link, passando o array como argumento
+    const link = document.getElementById("linkCarregar");
+    link.addEventListener("click", (event) => {
+        event.preventDefault(); // Evitar comportamento padrão do link
+        carregarDiv(sorvetes);
+    });
 </script>
 </html>
